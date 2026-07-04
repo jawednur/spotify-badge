@@ -1,5 +1,5 @@
 {
-    "name": "novatorem",
+    "name": "spotify-badge",
     "description": "Realtime profile Readme displaying currently playing song on Spotify using the Spotify API.",
     "scripts": {
         "postdeploy": "gunicorn --workers=1 api.spotify:app"
@@ -26,5 +26,5 @@
             "url": "heroku/python"
         }
     ],
-    "stack": "heroku-20"
+    "stack": "heroku-24"
 }
