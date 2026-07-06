@@ -27,10 +27,16 @@ Follow [SetUp.md](SetUp.md). Short version:
 
 ## Customization
 
-Colors are set with URL parameters (hex without `#`):
+Options are set with URL parameters:
 
-- `background_color` — card background
-- `border_color` — card border
+- `background_color` — card background (hex without `#`)
+- `border_color` — card border (hex without `#`)
+- `top_tracks` — number of tracks in the "On repeat lately" side panel
+  (0–5, default 5; requires a refresh token with the `user-top-read` scope,
+  otherwise the panel hides itself)
+
+The badge also shows a status line: "Vibing to:" when you're listening right
+now, "Recently played:" when you're not.
 
 See [SetUp.md](SetUp.md#customization) for themes and more options.
 
