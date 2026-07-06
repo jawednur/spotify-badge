@@ -34,7 +34,7 @@ authorize, and print the `SPOTIFY_REFRESH_TOKEN` to copy into your deployment.
 - Navigate to the following URL (fill in your client ID):
 
 ```
-https://accounts.spotify.com/authorize?client_id={SPOTIFY_CLIENT_ID}&response_type=code&scope=user-read-currently-playing,user-read-recently-played&redirect_uri=http://127.0.0.1:8888/callback
+https://accounts.spotify.com/authorize?client_id={SPOTIFY_CLIENT_ID}&response_type=code&scope=user-read-currently-playing,user-read-recently-played,user-top-read&redirect_uri=http://127.0.0.1:8888/callback
 ```
 
 - After logging in, your browser lands on an error page whose URL looks like
@@ -110,13 +110,11 @@ you're not currently playing anything.
 
 ### Status String
 
-Have a string saying either "Vibing to:" or "Recently played:".
-
-- In [api/templates/spotify.html.j2](api/templates/spotify.html.j2) (or the
-  dark template), change the `<svg>`/`<foreignObject>` `height` to
-  `height + 40` (or whatever `margin-top` is set to)
-- Uncomment **.main**'s `margin-top`
-- Uncomment the `currentStatus` div near the bottom of the template
+A string saying either "Vibing to:" (currently listening) or
+"Recently played:" (not currently on Spotify) is shown by default. To hide
+it, remove the `currentStatus` div in
+[api/templates/spotify.html.j2](api/templates/spotify.html.j2) (or the dark
+template) and reduce the card height in `api/spotify.py` (`cardHeight`).
 
 ### Theme Templates
 
@@ -132,6 +130,19 @@ If you wish to customize further, you can add your own customized
 `spotify.html.j2` file to the templates folder, and add the theme and file
 name to the `templates` dictionary in the `templates.json` file.
 
+### Top tracks panel
+
+By default the badge shows an "On repeat lately" panel next to the player with
+your most-played tracks of roughly the last 4 weeks (Spotify's finest
+granularity).
+
+- Requires the `user-top-read` scope on your refresh token. If your token was
+  generated without it, the panel is hidden automatically and only the player
+  is shown — re-run `get_refresh_token.py` and update
+  `SPOTIFY_REFRESH_TOKEN` to enable it.
+- `top_tracks` URL param controls the number of tracks (0–5).
+  `?top_tracks=0` hides the panel and restores the compact player-only card.
+
 ### Color
 
 You can customize the appearance of your `Card` however you wish with URL
@@ -139,8 +150,9 @@ params:
 
 - `background_color` - Card's background color _(hex color)_ without `#`
 - `border_color` - Card border color _(hex color)_ without `#`
+- `top_tracks` - Number of top tracks in the side panel (0-5, default 5)
 
-Example: `/api/spotify?background_color=0d1117&border_color=ffffff`
+Example: `/api/spotify?background_color=0d1117&border_color=ffffff&top_tracks=5`
 
 ### Spotify Logo
 
